@@ -1,8 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
-import RouterLink from '../views/RouterLink.vue'
-import RLS from '../views/RouterLink.vue'
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -12,17 +11,14 @@ const routes = [
     component: Home
   },
   {
-    path: '/jump',
-    name: 'RouterLink',
-    component:RouterLink
-  },
-  {
-    path: '/RLS',
-    name: 'RLS',
-    component:RLS
-}
+    path: '/about',
+    name: 'About',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
+  }
 ]
-
 
 const router = new VueRouter({
   mode: 'history',

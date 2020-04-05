@@ -1,18 +1,34 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <div v-for="(User,index) in users" :key="index">
+      <p>{{user.name}}さん</p>
+      <p>{{user.age}}歳</p>
+    </div>
   </div>
 </template>
-
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
-
+import firebase from "firebase";
 export default {
-  name: 'Home',
-  components: {
-    HelloWorld
+  data() {
+    return {
+      users: []
+    };
+  },
+  methods: {
+    get() {
+      var db = firebase.firestore();
+      db.collection("users")
+        .get()
+        .then(query => {
+          query.forEach(doc => {
+            var data = doc.data();
+            this.users.push(data);
+          });
+        });
+    }
+  },
+  created() {
+    this.get();
   }
-}
+};
 </script>
